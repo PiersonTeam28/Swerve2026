@@ -26,7 +26,7 @@ public class ElevatorUtil extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putString("Direction :: ", direction);
+    //SmartDashboard.putString("Direction :: ", direction);
   }
 
   public void elevatorUp() {

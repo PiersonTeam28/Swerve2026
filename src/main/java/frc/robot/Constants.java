@@ -41,7 +41,7 @@ public class Constants {
     /*
      * Elevator Constants
      */
-    public static final double SPEED_UP = 0.05;
-    public static final double SPEED_DOWN = -0.05;
+    public static final double SPEED_UP = 1.0;
+    public static final double SPEED_DOWN = -1.0;
     public static final double ELEVATOR_STOP = 0.0;
 }

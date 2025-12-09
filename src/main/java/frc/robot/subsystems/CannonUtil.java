@@ -4,8 +4,13 @@
 
 package frc.robot.subsystems;
 
+import frc.handlers.RobotStates;
+import frc.handlers.RobotStates.loaderMotor;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+
+import frc.robot.RobotContainer;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,5 +28,45 @@ public class CannonUtil extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void setLoader(double motorSpeed, RobotStates.loaderMotor state) {
+    RobotContainer.setLoaderState(state);
+
+    switch (state) {
+      case LOADING:
+        loader.set(TalonSRXControlMode.PercentOutput, Constants.LOADING_SPEED);
+        break;
+      case LOADED:
+        loader.set(TalonSRXControlMode.PercentOutput, Constants.LOADED_SPEED);
+        break;
+      case SHOOTING:
+        loader.set(TalonSRXControlMode.PercentOutput, Constants.LOADED_SPEED);
+        break;
+      default:
+        loader.set(TalonSRXControlMode.PercentOutput, 0.0);
+        break;
+    }
+    //loader.set(TalonSRXControlMode.PercentOutput, motorSpeed);
+  }
+
+  public void setShooter(double motorSpeed, RobotStates.shooterMotor state) {
+    RobotContainer.setShooterState(state);
+
+    switch (state) {
+      case LOADING:
+        shooter.set(TalonSRXControlMode.PercentOutput, 0.0);
+        break;
+      case SHOT:
+        shooter.set(TalonSRXControlMode.PercentOutput, Constants.SHOT_SPEED);
+        break;
+      case SHOOTING:
+        shooter.set(TalonSRXControlMode.PercentOutput, Constants.SHOOTING_SPEED);
+        break;
+      default:
+        shooter.set(TalonSRXControlMode.PercentOutput, 0.0);
+        break;
+    }
+    //loader.set(TalonSRXControlMode.PercentOutput, motorSpeed);
   }
 }

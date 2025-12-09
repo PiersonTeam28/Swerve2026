@@ -15,10 +15,15 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+
+import frc.handlers.RobotStates;
+
 import frc.robot.commands.OperateElevator;
+import frc.robot.commands.OperateShooter;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorUtil;
+import frc.robot.subsystems.CannonUtil;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)*0.25; // kSpeedAt12Volts desired top speed
@@ -33,7 +38,16 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
+    private static RobotStates.elevatorMotor elevatorState;
+    private static RobotStates.loaderMotor loaderState;
+    private static RobotStates.shooterMotor shooterState;
+
     private final ElevatorUtil elevatorUtil = new ElevatorUtil();
+
+    private final CannonUtil cannonUtil = new CannonUtil();
+
+
+
 
     private final CommandXboxController joystick0 = new CommandXboxController(0);
 
@@ -79,14 +93,49 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         joystick0.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
+
+        // second controller for elevator, loader and shooter
+
+        // y moves elevator up
         joystick1.y().onTrue(new OperateElevator(elevatorUtil, "up")).onFalse(new OperateElevator(elevatorUtil, "stop"));
 
+        // a moves elevator down
         joystick1.a().onTrue(new OperateElevator(elevatorUtil, "down")).onFalse(new OperateElevator(elevatorUtil, "stop"));
+
+        // x loads shot 
+        joystick1.x().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.LOADING, RobotStates.shooterMotor.LOADING));
+
+        // right bumper shoots
+        joystick1.rightBumper().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.SHOOTING, RobotStates.shooterMotor.SHOOTING));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {
         return Commands.print("No autonomous command configured");
+    }
+
+    public static void setElevatorState(RobotStates.elevatorMotor state){
+        elevatorState = state;
+    }
+
+    public static void setLoaderState(RobotStates.loaderMotor state){
+        loaderState = state;
+    }
+
+    public static void setShooterState(RobotStates.shooterMotor state){
+        shooterState = state;
+    }
+
+    public static RobotStates.elevatorMotor getElevatorState(){
+        return elevatorState;
+    }
+
+    public static RobotStates.loaderMotor getLoaderState(){
+        return loaderState;
+    }
+
+    public static RobotStates.shooterMotor getShooterState(){
+        return shooterState;
     }
 }

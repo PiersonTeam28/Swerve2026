@@ -106,7 +106,7 @@ public class RobotContainer {
         joystick1.x().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.LOADING, RobotStates.shooterMotor.LOADING));
 
         // right bumper shoots
-        joystick1.rightBumper().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.SHOOTING, RobotStates.shooterMotor.SHOOTING));
+        joystick1.rightBumper().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.SHOOTING, RobotStates.shooterMotor.SHOOTING)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.EMPTY, RobotStates.shooterMotor.SHOT));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

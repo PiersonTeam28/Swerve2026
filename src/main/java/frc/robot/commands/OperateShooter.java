@@ -51,6 +51,11 @@ public class OperateShooter extends Command {
         m_cannon.setShooter(Constants.SHOOTING_SPEED, this.m_shootState);
         break;
       }
+      case EMPTY:{
+        m_cannon.setLoader(Constants.LOADED_SPEED, this.m_loadState);
+        m_cannon.setShooter(Constants.SHOT_SPEED, this.m_shootState);
+        break;
+      }
       default: {
         m_cannon.setLoader(0, this.m_loadState);
         m_cannon.setShooter(0, this.m_shootState);

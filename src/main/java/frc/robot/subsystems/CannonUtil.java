@@ -43,8 +43,11 @@ public class CannonUtil extends SubsystemBase {
       case SHOOTING:
         loader.set(TalonSRXControlMode.PercentOutput, Constants.LOADED_SPEED);
         break;
+      case EMPTY:
+        loader.set(TalonSRXControlMode.PercentOutput, 0);
+        break;
       default:
-        loader.set(TalonSRXControlMode.PercentOutput, 0.0);
+        loader.set(TalonSRXControlMode.PercentOutput, 0);
         break;
     }
     //loader.set(TalonSRXControlMode.PercentOutput, motorSpeed);

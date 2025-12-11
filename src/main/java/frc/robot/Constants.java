@@ -45,7 +45,7 @@ public class Constants {
     public static final double SPEED_DOWN = -1.0;
     public static final double ELEVATOR_STOP = 0.0;
 
-    public static final double LOADING_SPEED = 1.0;
+    public static final double LOADING_SPEED = 0.75;
     public static final double LOADING_TIME = 1.0;
     public static final double LOADED_SPEED = 0.0;
 

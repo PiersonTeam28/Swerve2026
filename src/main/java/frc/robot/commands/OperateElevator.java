@@ -11,11 +11,13 @@ import frc.robot.subsystems.ElevatorUtil;
 public class OperateElevator extends Command {
   /** Creates a new OperateElevator. */
   private final ElevatorUtil m_elevator;
+  private final String m_direction;
 
-  public OperateElevator(ElevatorUtil elevator) {
+  public OperateElevator(ElevatorUtil elevator, String direction) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_elevator = elevator;
     addRequirements(m_elevator);
+    m_direction = direction;
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +26,14 @@ public class OperateElevator extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (m_direction.equals("up")) 
+      m_elevator.elevatorUp();
+    else if (m_direction.equals("down")) 
+      m_elevator.elevatorDown();
+    else if (m_direction.equals("stop")) 
+    m_elevator.elevatorStop();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

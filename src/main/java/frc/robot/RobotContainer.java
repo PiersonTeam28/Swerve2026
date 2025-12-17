@@ -103,7 +103,7 @@ public class RobotContainer {
         joystick1.a().onTrue(new OperateElevator(elevatorUtil, "down")).onFalse(new OperateElevator(elevatorUtil, "stop"));
 
         // x loads shot 
-        joystick1.x().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.LOADING, RobotStates.shooterMotor.LOADING));
+        joystick1.x().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.LOADING, RobotStates.shooterMotor.LOADING)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.LOADED, RobotStates.shooterMotor.SHOT));
 
         // right bumper shoots
         joystick1.rightBumper().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.SHOOTING, RobotStates.shooterMotor.SHOOTING)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.EMPTY, RobotStates.shooterMotor.SHOT));

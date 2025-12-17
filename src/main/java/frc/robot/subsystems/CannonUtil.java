@@ -9,6 +9,9 @@ import frc.handlers.RobotStates.loaderMotor;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import edu.wpi.first.wpilibj.Encoder;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.RobotContainer;
 
@@ -19,15 +22,19 @@ public class CannonUtil extends SubsystemBase {
   /** Creates a new CannonUtil. */
   private TalonSRX shooter;
   private TalonSRX loader;
+  private Encoder encoder;
 
   public CannonUtil() {
     shooter = new TalonSRX(Constants.SHOOTER);    // changed names
     loader = new TalonSRX(Constants.LOADER);
+    encoder = new Encoder(Constants.SHOT_ENCODER_CHANNEL_A, Constants.SHOT_ENCODER_CHANNEL_B);
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    updateDashboard();
   }
 
   public void setLoader(double motorSpeed, RobotStates.loaderMotor state) {
@@ -70,6 +77,12 @@ public class CannonUtil extends SubsystemBase {
         shooter.set(TalonSRXControlMode.PercentOutput, 0.0);
         break;
     }
+    
     //loader.set(TalonSRXControlMode.PercentOutput, motorSpeed);
+  }
+
+  private void updateDashboard(){
+    SmartDashboard.putNumber("Encoder Value :: ", encoder.get());
+    SmartDashboard.putBoolean("Encoder Direction :: ", encoder.getDirection());
   }
 }

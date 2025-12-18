@@ -51,6 +51,23 @@ public class OperateShooter extends Command {
         m_cannon.setShooter(Constants.SHOOTING_SPEED, this.m_shootState);
         break;
       }
+      case REVERSE:{
+        m_cannon.setLoader(Constants.LOADED_SPEED, this.m_loadState);
+        m_cannon.setShooter(Constants.SHOOTING_SPEED*-1.0, this.m_shootState);
+        break;
+      }
+      case HOMING:{
+        
+        m_cannon.setLoader(Constants.LOADED_SPEED, this.m_loadState);
+        m_cannon.setShooter(Constants.HOMING_SPEED, this.m_shootState);
+        break;
+      }
+      case SHOOTS:{
+        
+        m_cannon.setLoader(Constants.LOADED_SPEED, this.m_loadState);
+        m_cannon.setShooter(Constants.HOMING_SPEED, this.m_shootState);
+        break;
+      }
       case EMPTY:{
         m_cannon.setLoader(Constants.LOADED_SPEED, this.m_loadState);
         m_cannon.setShooter(Constants.SHOT_SPEED, this.m_shootState);

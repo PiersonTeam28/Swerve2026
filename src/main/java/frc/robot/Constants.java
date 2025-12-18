@@ -50,6 +50,8 @@ public class Constants {
     public static final double LOADED_SPEED = 0.0;
 
     public static final double SHOOTING_SPEED = 1.0;
+    public static final double HOMING_SPEED = 0.1;
+
     public static final double SHOT_SPEED = 0.0;
 
     /*

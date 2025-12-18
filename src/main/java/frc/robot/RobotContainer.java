@@ -107,6 +107,14 @@ public class RobotContainer {
 
         // right bumper shoots
         joystick1.rightBumper().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.SHOOTING, RobotStates.shooterMotor.SHOOTING)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.EMPTY, RobotStates.shooterMotor.SHOT));
+        
+        // left bumper reverses
+        joystick1.leftBumper().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.REVERSE, RobotStates.shooterMotor.REVERSE)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.EMPTY, RobotStates.shooterMotor.SHOT));
+        
+        // b button finds home (0 initializes at robot start)
+        joystick1.b().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.HOMING, RobotStates.shooterMotor.HOMING)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.EMPTY, RobotStates.shooterMotor.SHOT));
+
+        //joystick1.b().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.SHOOTS, RobotStates.shooterMotor.SHOOTS));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

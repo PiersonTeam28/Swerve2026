@@ -13,13 +13,19 @@ public class RobotStates {
     public enum loaderMotor{
         LOADING, // active when loading
         LOADED, //stop when loaded
-        SHOOTING, //should be stopped while shooting
+        SHOOTING,//should be stopped while shooting
+        REVERSE, 
+        HOMING,
+        SHOOTS,
         EMPTY; // button was pressed and air discharged
     }
 
     public enum shooterMotor{
         LOADING, // should be stopped while loading
         SHOOTING, // active when shooting
+        REVERSE,
+        HOMING,
+        SHOOTS,
         SHOT; // shot success meaning trigger was pressed
     }
 }

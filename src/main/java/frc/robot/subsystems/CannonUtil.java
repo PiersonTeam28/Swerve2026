@@ -23,12 +23,16 @@ public class CannonUtil extends SubsystemBase {
   private TalonSRX shooter;
   private TalonSRX loader;
   private Encoder encoder;
+  private double enc;
+  private double buffer;
 
   public CannonUtil() {
     shooter = new TalonSRX(Constants.SHOOTER);    // changed names
     loader = new TalonSRX(Constants.LOADER);
     encoder = new Encoder(Constants.SHOT_ENCODER_CHANNEL_A, Constants.SHOT_ENCODER_CHANNEL_B);
-
+    encoder.setDistancePerPulse(360.0/(7.0*71.0));
+    encoder.reset();
+    buffer = 10.0;
   }
 
   @Override
@@ -73,6 +77,30 @@ public class CannonUtil extends SubsystemBase {
       case SHOOTING:
         shooter.set(TalonSRXControlMode.PercentOutput, Constants.SHOOTING_SPEED);
         break;
+        case REVERSE:
+        shooter.set(TalonSRXControlMode.PercentOutput, Constants.SHOOTING_SPEED*-1.0);
+        break;
+      case HOMING:
+        if((encoder.getDistance() % 360.0)>0){
+          shooter.set(TalonSRXControlMode.PercentOutput, Constants.HOMING_SPEED*-1.0);
+        }
+        else if((encoder.getDistance() % 360.0)<0){
+          shooter.set(TalonSRXControlMode.PercentOutput, Constants.HOMING_SPEED);
+
+        }
+        else if((encoder.getDistance() % 360.0)==0){
+          shooter.set(TalonSRXControlMode.PercentOutput, 0.0);
+
+        }
+        break;
+        case SHOOTS:
+        if((encoder.getDistance() % 360.0)>buffer){
+          shooter.set(TalonSRXControlMode.PercentOutput, Constants.HOMING_SPEED*1.0);
+        }
+        else if(((encoder.getDistance() % 360.0)<=buffer)&&((encoder.getDistance() % 360.0)>=buffer*-1.0)){
+          shooter.set(TalonSRXControlMode.PercentOutput, 0.0);
+        }
+        break;
       default:
         shooter.set(TalonSRXControlMode.PercentOutput, 0.0);
         break;
@@ -82,7 +110,18 @@ public class CannonUtil extends SubsystemBase {
   }
 
   private void updateDashboard(){
-    SmartDashboard.putNumber("Encoder Value :: ", encoder.get());
+    
+    SmartDashboard.putNumber("Encoder Rate :: ", encoder.getRate());
+    SmartDashboard.putNumber("Encoder Period :: ", encoder.getPeriod());
+    SmartDashboard.putNumber("Encoder Distance Per Pulse :: ", encoder.getDistancePerPulse());
+    SmartDashboard.putNumber("Encoder Angle :: ", encoder.getDistance() % 360.0);
+
     SmartDashboard.putBoolean("Encoder Direction :: ", encoder.getDirection());
+    enc = encoder.get();
+    SmartDashboard.putNumber("Enc :: ", enc);
   }
 }
+
+//27:1 gear ratio or 71:1 or 188:1
+// 7 pulses per revolution
+//

@@ -26,6 +26,15 @@ import frc.robot.subsystems.ElevatorUtil;
 import frc.robot.subsystems.CannonUtil;
 
 public class RobotContainer {
+    
+    // might use these to invert drive directions if needed
+    private double invert = -1.0;
+    private boolean invertY = true;
+    private boolean invertX = false;
+    private boolean invertR = false;
+
+
+
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)*0.25; // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond)*0.25; // 3/4 of a rotation per second max angular velocity
 
@@ -65,9 +74,9 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick0.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-joystick0.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick0.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(-joystick0.getLeftY() * MaxSpeed * invert) // Drive forward with negative Y (forward)
+                    .withVelocityY(-joystick0.getLeftX() * MaxSpeed * invert) // Drive left with negative X (left)
+                    .withRotationalRate(-joystick0.getRightX() * MaxAngularRate * invert) // Drive counterclockwise with negative X (left)
             )
         );
 

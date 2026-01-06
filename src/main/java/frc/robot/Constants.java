@@ -13,6 +13,20 @@ public class Constants {
     public static final int LOADER = 16; // changed trigger to LOADER
     public static final int SHOOTER = 20; //changed SOLENOID to SHOOTER
 
+    //new elevator stuff
+    public enum ElevatorAngle {
+        UP,
+        DOWN,
+        STOP
+      }
+
+    public enum CannonState {
+        SHOOT,
+        LOAD_SHORT,
+        LOAD_LONG,
+        DEFAULT
+    }
+
     // Swerve Drive CAN IDs
     public static final int FRONT_LEFT_ANGLEMOTOR = 9;
     public static final int FRONT_LEFT_DRIVEMOTOR = 3;
@@ -53,6 +67,23 @@ public class Constants {
     public static final double HOMING_SPEED = 0.1;
 
     public static final double SHOT_SPEED = 0.0;
+
+    public static final double ANGLE_UP = 1.0;
+    public static final double ANGLE_DOWN = -1.0;
+    public static final double ANGLE_STOP = 0.0;
+    //public static final int SHOT_ENCODER_CHANNEL_A = 0;
+   // public static final int SHOT_ENCODER_CHANNEL_B = 1;
+
+    /*
+     * Cannon Constants
+     */
+    public static final double WAIT_SHORT = 0.5;
+    public static final double WAIT_LONG = 1.0;
+    public static final double CANNON_SHOOT = 1.0;
+    public static final double CANNON_LOAD = 1.0;
+    public static final double CANNON_DEFAULT = 0.0;
+
+
 
     /*
      * Cannon Constants

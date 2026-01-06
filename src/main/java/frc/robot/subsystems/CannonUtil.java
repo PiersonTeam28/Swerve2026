@@ -119,6 +119,9 @@ public class CannonUtil extends SubsystemBase {
     SmartDashboard.putBoolean("Encoder Direction :: ", encoder.getDirection());
     enc = encoder.get();
     SmartDashboard.putNumber("Enc :: ", enc);
+
+    SmartDashboard.putNumber("LOADER MOTOR PERCENT", loader.getMotorOutputPercent());
+    SmartDashboard.putNumber("SHOOTER MOTOR PERCENT", shooter.getMotorOutputPercent());
   }
 }
 

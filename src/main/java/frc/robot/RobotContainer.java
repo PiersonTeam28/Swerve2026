@@ -54,14 +54,58 @@ public class RobotContainer {
         configureBindings();
     }
 
+    private final CommandXboxController joystick0 = new CommandXboxController(0);
+
+    private final CommandXboxController joystick1 = new CommandXboxController(1); 
+
     private void configureBindings() {
-        joystick.y().whileTrue(new OperateElevator(elevatorUtil, Constants.ElevatorAngle.UP));
-        joystick.a().whileTrue(new OperateElevator(elevatorUtil, Constants.ElevatorAngle.DOWN));
-        joystick.x().onTrue(new OperateCannon(cannonUtil, Constants.CannonState.LOAD_SHORT));
-        joystick.b().onTrue(new OperateCannon(cannonUtil, Constants.CannonState.LOAD_LONG));
-        joystick.rightTrigger().onTrue(new OperateCannon(cannonUtil, Constants.CannonState.SHOOT));
+        // Note that X is defined as forward according to WPILib convention,
+        // and Y is defined as to the left according to WPILib convention.
+        drivetrain.setDefaultCommand(
+            // Drivetrain will execute this command periodically
+            drivetrain.applyRequest(() ->
+                drive.withVelocityX(-joystick0.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-joystick0.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-joystick0.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            )
+        );
+
+        // Idle while the robot is disabled. This ensures the configured
+        // neutral mode is applied to the drive motors while disabled.
+        final var idle = new SwerveRequest.Idle();
+        RobotModeTriggers.disabled().whileTrue(
+            drivetrain.applyRequest(() -> idle).ignoringDisable(true)
+        );
+
+        joystick0.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        joystick0.b().whileTrue(drivetrain.applyRequest(() ->
+            point.withModuleDirection(new Rotation2d(-joystick0.getLeftY(), -joystick0.getLeftX()))
+        ));
+
+        // Run SysId routines when holding back/start and X/Y.
+        // Note that each routine should be run exactly once in a single log.
+        joystick0.back().and(joystick0.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        joystick0.back().and(joystick0.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        joystick0.start().and(joystick0.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        joystick0.start().and(joystick0.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+
+        // reset the field-centric heading on left bumper press
+        joystick0.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+
+        // second controller for elevator, loader and shooter
+
+        joystick1.y().whileTrue(new OperateElevator(elevatorUtil, Constants.ElevatorAngle.UP));
+        joystick1.a().whileTrue(new OperateElevator(elevatorUtil, Constants.ElevatorAngle.DOWN));
+        joystick1.x().onTrue(new OperateCannon(cannonUtil, Constants.CannonState.LOAD_SHORT));
+        joystick1.b().onTrue(new OperateCannon(cannonUtil, Constants.CannonState.LOAD_LONG));
+        joystick1.rightTrigger().onTrue(new OperateCannon(cannonUtil, Constants.CannonState.SHOOT));
+
     
-     }
+
+        drivetrain.registerTelemetry(logger::telemeterize);
+    }
+
     
      private void setDefaultCommands(){
         cannonUtil.setDefaultCommand(new OperateCannon(cannonUtil, Constants.CannonState.DEFAULT));

@@ -17,10 +17,11 @@ public class ElevatorUtil extends SubsystemBase {
   /** Creates a new ElevatorUtil. */
 
   private TalonSRX elevator;
-  private String direction;
+  private Constants.ElevatorAngle angle;
   
-  public ElevatorUtil() {
+  public ElevatorUtil(Constants.ElevatorAngle angle) {
     elevator = new TalonSRX(Constants.ELEVATOR);
+    this.angle = angle;
   }
 
   @Override
@@ -29,18 +30,31 @@ public class ElevatorUtil extends SubsystemBase {
     //SmartDashboard.putString("Direction :: ", direction);
   }
 
+  public void setElevatorAngle(Constants.ElevatorAngle angle){
+    this.angle = angle;
+    switch (this.angle){
+      case UP :
+        elevatorUp();
+        break;
+      case DOWN:
+        elevatorDown();
+        break;
+      case STOP:
+        elevatorStop();
+        break;
+      default:
+        elevatorStop();
+    }
+  }
   public void elevatorUp() {
-    elevator.set(TalonSRXControlMode.PercentOutput, Constants.SPEED_UP);
-    direction = "Up";
+    elevator.set(TalonSRXControlMode.PercentOutput, Constants.ANGLE_UP);
   }
 
   public void elevatorDown() {
-    elevator.set(TalonSRXControlMode.PercentOutput, Constants.SPEED_DOWN);
-    direction = "Down";
+    elevator.set(TalonSRXControlMode.PercentOutput, Constants.ANGLE_DOWN);
   }
 
   public void elevatorStop() {
-    elevator.set(TalonSRXControlMode.PercentOutput, Constants.ELEVATOR_STOP);
-    direction = "Stop";
-  }
+    elevator.set(TalonSRXControlMode.PercentOutput, Constants.ANGLE_STOP);
+ }
 }

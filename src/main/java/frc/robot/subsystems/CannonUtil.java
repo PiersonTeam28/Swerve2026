@@ -71,6 +71,10 @@ public class CannonUtil extends SubsystemBase {
       case LOADING:
         shooter.set(TalonSRXControlMode.PercentOutput, 0.0);
         break;
+      case RESET:
+        shooter.set(TalonSRXControlMode.PercentOutput, 0.0);
+        encoder.reset();
+        break;
       case SHOT:
         shooter.set(TalonSRXControlMode.PercentOutput, Constants.SHOT_SPEED);
         break;
@@ -78,7 +82,7 @@ public class CannonUtil extends SubsystemBase {
         shooter.set(TalonSRXControlMode.PercentOutput, Constants.SHOOTING_SPEED);
         break;
         case REVERSE:
-        shooter.set(TalonSRXControlMode.PercentOutput, Constants.SHOOTING_SPEED*-1.0);
+        shooter.set(TalonSRXControlMode.PercentOutput, Constants.SHOOTING_SPEED * -1.0);
         break;
       case HOMING:
         if((encoder.getDistance() % 360.0)>0){
@@ -122,9 +126,11 @@ public class CannonUtil extends SubsystemBase {
 
     SmartDashboard.putNumber("LOADER MOTOR PERCENT", loader.getMotorOutputPercent());
     SmartDashboard.putNumber("SHOOTER MOTOR PERCENT", shooter.getMotorOutputPercent());
+
+
   }
 }
 
-//27:1 gear ratio or 71:1 or 188:1
+// 27:1 gear ratio or 71:1 or 188:1
 // 7 pulses per revolution
 //

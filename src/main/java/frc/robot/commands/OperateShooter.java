@@ -35,9 +35,15 @@ public class OperateShooter extends Command {
   @Override
   public void execute() {
     // we need to load and then shoot, make sure it is loaded before shooting and empty before loading
+    //added reset button
     switch (this.m_loadState) {
       case LOADING:{
         m_cannon.setLoader(Constants.LOADING_SPEED, this.m_loadState);
+        m_cannon.setShooter(Constants.SHOT_SPEED, this.m_shootState);
+        break;
+      }
+      case RESET:{
+        m_cannon.setLoader(Constants.LOADED_SPEED, this.m_loadState);
         m_cannon.setShooter(Constants.SHOT_SPEED, this.m_shootState);
         break;
       }

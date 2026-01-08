@@ -16,6 +16,7 @@ public class RobotStates {
         SHOOTING,//should be stopped while shooting
         REVERSE, 
         HOMING,
+        RESET,
         SHOOTS,
         EMPTY; // button was pressed and air discharged
     }
@@ -25,6 +26,7 @@ public class RobotStates {
         SHOOTING, // active when shooting
         REVERSE,
         HOMING,
+        RESET,
         SHOOTS,
         SHOT; // shot success meaning trigger was pressed
     }

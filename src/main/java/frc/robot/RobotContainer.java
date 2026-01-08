@@ -33,10 +33,13 @@ public class RobotContainer {
     private boolean invertX = false;
     private boolean invertR = false;
 
+    // variable for slow speed for testing the drive
+    private double slow = 0.25;
 
 
-    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)*0.25; // kSpeedAt12Volts desired top speed
-    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond)*0.25; // 3/4 of a rotation per second max angular velocity
+
+    private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond)*slow; // kSpeedAt12Volts desired top speed
+    private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond)*slow; // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -124,6 +127,9 @@ public class RobotContainer {
         joystick1.b().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.HOMING, RobotStates.shooterMotor.HOMING)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.EMPTY, RobotStates.shooterMotor.SHOT));
 
         //joystick1.b().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.SHOOTS, RobotStates.shooterMotor.SHOOTS));
+
+        // button to reset encoder
+        joystick1.start().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.RESET, RobotStates.shooterMotor.RESET)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.EMPTY, RobotStates.shooterMotor.SHOT));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

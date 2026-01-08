@@ -28,7 +28,7 @@ public class ElevatorUtil extends SubsystemBase {
     // This method will be called once per scheduler run
     //SmartDashboard.putString("Direction :: ", direction);
   }
-
+// we can change these from strings to the ENUMs in RobotStates eventually
   public void elevatorUp() {
     elevator.set(TalonSRXControlMode.PercentOutput, Constants.SPEED_UP);
     direction = "Up";

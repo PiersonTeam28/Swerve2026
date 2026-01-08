@@ -31,7 +31,7 @@ public class CannonUtil extends SubsystemBase {
     loader = new TalonSRX(Constants.LOADER);
     encoder = new Encoder(Constants.SHOT_ENCODER_CHANNEL_A, Constants.SHOT_ENCODER_CHANNEL_B);
     encoder.setDistancePerPulse(360.0/(7.0*71.0));
-    encoder.reset();
+    //encoder.reset();
     buffer = 10.0;
   }
 

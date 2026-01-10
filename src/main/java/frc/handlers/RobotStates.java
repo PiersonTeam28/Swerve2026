@@ -10,6 +10,14 @@ public class RobotStates {
         STOP;
     }
 
+    public enum lights{
+        SHOT,
+        BREATH,
+        HEARTBEAT,
+        SCANNER,
+        CHASE;
+    }
+
     public enum loaderMotor{
         LOADING, // active when loading
         LOADED, //stop when loaded
@@ -28,6 +36,7 @@ public class RobotStates {
         HOMING,
         RESET,
         SHOOTS,
+        EMPTY,
         SHOT; // shot success meaning trigger was pressed
     }
 }

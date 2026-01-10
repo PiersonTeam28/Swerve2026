@@ -20,10 +20,14 @@ import frc.handlers.RobotStates;
 
 import frc.robot.commands.OperateElevator;
 import frc.robot.commands.OperateShooter;
+import frc.robot.commands.OperateLights;
+
 import frc.robot.generated.TunerConstants;
+
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorUtil;
 import frc.robot.subsystems.CannonUtil;
+import frc.robot.subsystems.Lights;
 
 public class RobotContainer {
     
@@ -35,6 +39,8 @@ public class RobotContainer {
 
     // variable for slow speed for testing the drive
     private double slow = 0.25;
+
+
 
 
 
@@ -50,13 +56,30 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
+    
+
+
     private static RobotStates.elevatorMotor elevatorState;
     private static RobotStates.loaderMotor loaderState;
     private static RobotStates.shooterMotor shooterState;
 
+    
+
+    
+
     private final ElevatorUtil elevatorUtil = new ElevatorUtil();
 
     private final CannonUtil cannonUtil = new CannonUtil();
+
+    private final Lights blinkin = new Lights();
+    
+    // if(loaderState == null){
+    //     elevatorState = RobotStates.elevatorMotor.STOP;
+    //     loaderState = RobotStates.loaderMotor.EMPTY;
+    //     shooterState = RobotStates.shooterMotor.EMPTY;
+    // }
+    
+    // OperateLights led = new OperateLights(blinkin, loaderState, shooterState);
 
 
 
@@ -82,6 +105,16 @@ public class RobotContainer {
                     .withRotationalRate(-joystick0.getRightX() * MaxAngularRate * invert) // Drive counterclockwise with negative X (left)
             )
         );
+
+        // if(loaderState == null){
+        // elevatorState = RobotStates.elevatorMotor.STOP;
+        // loaderState = RobotStates.loaderMotor.LOADING;
+        // shooterState = RobotStates.shooterMotor.LOADING;
+        // }
+        //blinkin.setDefaultCommand(new OperateLights(blinkin, loaderState, shooterState));
+
+
+        //new OperateLights(blinkin, loaderState, shooterState);
 
         // Idle while the robot is disabled. This ensures the configured
         // neutral mode is applied to the drive motors while disabled.
@@ -130,6 +163,9 @@ public class RobotContainer {
 
         // button to reset encoder
         joystick1.start().onTrue(new OperateShooter(cannonUtil, RobotStates.loaderMotor.RESET, RobotStates.shooterMotor.RESET)).onFalse(new OperateShooter(cannonUtil, RobotStates.loaderMotor.EMPTY, RobotStates.shooterMotor.SHOT));
+
+        joystick1.back().onTrue(new OperateLights(blinkin, RobotStates.lights.HEARTBEAT));
+        
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

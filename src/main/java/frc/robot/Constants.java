@@ -91,5 +91,21 @@ public class Constants {
     public static final int SHOT_ENCODER_CHANNEL_A = 0;
     public static final int SHOT_ENCODER_CHANNEL_B = 1;
 
+    //LED Blinkin
+    public static final int BLINKIN = 0; //PWM CHANNEL
+
+    public static final double SHOT_RED = -0.85;
+    public static final double LARSON_SCANNER_RED = -0.35;
+    public static final double LIGHT_CHASE_RED = -0.31;
+    public static final double HEARTBEAT_RED = -0.25;
+    public static final double BREATH_RED = -0.17;
+    public static final double STROBE_RED = -0.11;
+    public static final double RED = 0.61;
+
+
+
+
+
+
 
 }
